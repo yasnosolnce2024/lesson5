@@ -1,5 +1,5 @@
 class bank():
-    def init(self, id, balance=0):
+    def __init__(self, id, balance=0):
         self.id = id
         self.balance = balance
     def deposit(self, money):

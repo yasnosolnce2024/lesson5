@@ -1,40 +1,41 @@
-class Warrior():
-    def __init__(self, name, power, endurance, hair_color):
-        self.name = name
-        self.power = power
-        self.endurance = endurance
-        self.hair_color = hair_color
+class Task:
+    def __init__(self, workname, deadline):
+        self.workname = workname
+        self.deadline = deadline
+        self.status = False
 
-    def sleep(self):
-        print(f'{self.name} лег спать')
-        self.endurance += 2
+    def mark_completion(self):
+        self.status = True
 
-    def eat(self):
-        print(f'{self.name} сел кушать')
-        self.power += 1
+class TaskManager:
+    def __init__(self):
+        self.tasks = []
 
-    def hit(self):
-        print(f'{self.name} бьет кого - то')
-        self.endurance -= 6
+    def add_task(self, workname, deadline):
+        task = Task(workname, deadline)
+        self.tasks.append(task)
 
-    def walk(self):
-        print(f'{self.name} гуляет')
+    def mark_completion(self, workname):
+        for task in self.tasks:
+            if task.workname == workname:
+                task.mark_completion()
+                print(f'Задача "{workname}" выполнена!')
+                return  # Добавлено для выхода из цикла после выполнения задачи
+        print(f'Задача "{workname}" не найдена.')
 
-    def info(self):
-        print(f'имя воина - {self.name}')
-        print(f'цвет волос воина - {self.hair_color}')
-        print(f'сила воина - {self.power}')
-        print(f'выносливость воина - {self.endurance}')
+    def list_unfulfilled(self):
+        unfulfilled = [task for task in self.tasks if not task.status]
+        if unfulfilled:
+            print("Список текущих задач (не выполненные):")
+            for task in unfulfilled:
+                print(f"- {task.workname} (срок: {task.deadline})")
+        else:
+            print("Все задачи выполнены!")
 
-war1 = Warrior('Степа', 76, 54, 'коричневый')
-war2 = Warrior('Егор', 45 , 23 , 'цвет волос блонд')
-print(war1.name)
-print(war1.power)
-print(war1.endurance)
-print(war1.hair_color)
+Manager = TaskManager()
+Manager.add_task("Подготовить отчет", "2024-04-05")
+Manager.add_task("Созвониться с клиентом", "2024-04-10")
+Manager.list_unfulfilled()
+Manager.mark_completion("Подготовить отчет")
+Manager.list_unfulfilled()
 
-war1.sleep()
-war1.eat()
-war1.hit()
-war1.walk()
-war1.info()
